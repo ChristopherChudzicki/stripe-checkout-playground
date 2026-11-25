@@ -75,8 +75,8 @@ export type PlaygroundState = {
 const DEFAULTS: PlaygroundState = {
   inCart: true,
   discountCode: null,
-  addressOnFile: false,
-  details: EMPTY_DETAILS,
+  addressOnFile: true,
+  details: PROFILE_DETAILS,
   exportCheck: "pass",
   branding: true,
   outline: true,
