@@ -41,12 +41,14 @@ const OnFile = styled.div(({ theme }) => ({
   "& .address": { ...theme.typography.body2, color: theme.custom.colors.silverGrayDark },
 }))
 
-const Why = styled.details(({ theme }) => ({
+const WhyButton = styled.button(({ theme }) => ({
   ...theme.typography.body3,
-  color: theme.custom.colors.silverGrayDark,
-  margin: "-8px 0 16px",
-  "& summary": { cursor: "pointer", color: theme.custom.colors.red, width: "fit-content" },
-  "& p": { margin: "8px 0 0" },
+  color: theme.custom.colors.red,
+  background: "none",
+  border: "none",
+  padding: 0,
+  cursor: "pointer",
+  "&:hover": { textDecoration: "underline" },
 }))
 
 /**
@@ -67,6 +69,7 @@ export function DetailsCard({
   onEdit: () => void
   onSave: () => void
 }) {
+  const [whyOpen, setWhyOpen] = React.useState(false)
   const errors = showErrors ? detailsErrors(details) : {}
   const set = (key: keyof Details) => (e: { target: { value: unknown } }) =>
     updatePlayground((s) => ({ details: { ...s.details, [key]: String(e.target.value) } }))
@@ -88,15 +91,24 @@ export function DetailsCard({
   return (
     <Card id="your-details">
       <SectionHeading style={{ marginBottom: 8 }}>Your details</SectionHeading>
-      <Muted style={{ margin: "0 0 16px" }}>Required to enroll.</Muted>
-      <Why>
-        <summary>Why?</summary>
-        <p>
+      <Muted style={{ margin: "0 0 16px" }}>
+        Required to enroll.{" "}
+        <WhyButton
+          type="button"
+          aria-expanded={whyOpen}
+          aria-controls="details-why"
+          onClick={() => setWhyOpen((o) => !o)}
+        >
+          Why?
+        </WhyButton>
+      </Muted>
+      {whyOpen && (
+        <Muted id="details-why" style={{ margin: "-8px 0 16px" }}>
           U.S. export regulations require MIT to check who enrolls, using your legal name and
           address. They aren&apos;t used for billing; you&apos;ll give your card&apos;s billing
           details at payment.
-        </p>
-      </Why>
+        </Muted>
+      )}
       {showForm ? (
         <>
           <Grid>{field("name", "Legal name", true)}</Grid>
