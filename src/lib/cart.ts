@@ -12,17 +12,21 @@ export type Product = {
   description: string
   /** Under `public/`. */
   imagePath: string
+  /** The program's page. */
+  url: string
   starts: string
   listPriceCents: number
 }
 
 export const PRODUCT: Product = {
-  sku: "program-v1:MITx+SDS",
+  sku: "program-v1:MITxT+SDS",
   kind: "Program",
-  name: "Statistics and Data Science",
+  name: "Test Program",
   description:
     "Left column background matches Learn's light gray background. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.",
   imagePath: "/images/default_resource.jpg",
+  // A real program page on Learn's RC site, so the link goes somewhere without being production.
+  url: "https://rc.learn.mit.edu/programs/program-v1:MITxT+SDS",
   starts: "Anytime",
   listPriceCents: 135000,
 }

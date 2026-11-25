@@ -16,7 +16,13 @@ const Info = styled.div(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   "& .kind": { ...theme.typography.body2, color: theme.custom.colors.silverGrayDark },
-  "& .name": { ...theme.typography.h5, margin: "8px 0 24px" },
+  "& .name": {
+    ...theme.typography.h5,
+    margin: "8px 0 24px",
+    color: "inherit",
+    textDecoration: "none",
+    "&:hover": { textDecoration: "underline" },
+  },
 }))
 
 const Footer = styled.div(({ theme }) => ({
@@ -47,13 +53,15 @@ export function ProductCard({ product, onRemove }: { product: Product; onRemove:
     <Layout>
       <Info>
         <div className="kind">{product.kind}</div>
-        <div className="name">{product.name}</div>
+        <a className="name" href={product.url} target="_blank" rel="noreferrer">
+          {product.name}
+        </a>
         <Footer>
           <span>
             <span className="label">Starts:</span> {product.starts}
           </span>
           <span className="links">
-            <a href="https://learn.mit.edu/" target="_blank" rel="noreferrer" style={{ color: "inherit" }}>
+            <a href={product.url} target="_blank" rel="noreferrer" style={{ color: "inherit" }}>
               Program details
             </a>
             <span className="divider" aria-hidden />
