@@ -75,27 +75,51 @@ const Group = styled.fieldset(({ theme }) => ({
   "& small": { display: "block", color: theme.custom.colors.silverGrayDark },
 }))
 
+const SubGroup = styled.div(({ theme }) => ({
+  ...theme.typography.subtitle4,
+  color: theme.custom.colors.silverGrayDark,
+  textTransform: "uppercase",
+  letterSpacing: "0.04em",
+  margin: "12px 0 4px",
+  paddingTop: "10px",
+  borderTop: `1px solid ${theme.custom.colors.lightGray2}`,
+  "&:first-of-type": { borderTop: "none", paddingTop: 0, marginTop: "4px" },
+}))
+
+const Note = styled.small(({ theme }) => ({
+  display: "block",
+  color: theme.custom.colors.silverGrayDark,
+  marginBottom: "4px",
+}))
+
+/** A radio group; a choice with a `heading` starts a new sub-group under a divider. */
 function Radios<T extends string>({
   legend,
+  note,
   name,
   value,
   choices,
   onChange,
 }: {
   legend: string
+  note?: React.ReactNode
   name: string
   value: T
-  choices: [T, React.ReactNode][]
+  choices: { value: T; label: React.ReactNode; heading?: string }[]
   onChange: (v: T) => void
 }) {
   return (
     <Group>
       <legend>{legend}</legend>
-      {choices.map(([v, label]) => (
-        <label key={v}>
-          <input type="radio" name={name} checked={value === v} onChange={() => onChange(v)} />
-          <span>{label}</span>
-        </label>
+      {note && <Note>{note}</Note>}
+      {choices.map((c) => (
+        <React.Fragment key={c.value}>
+          {c.heading && <SubGroup>{c.heading}</SubGroup>}
+          <label>
+            <input type="radio" name={name} checked={value === c.value} onChange={() => onChange(c.value)} />
+            <span>{c.label}</span>
+          </label>
+        </React.Fragment>
       ))}
     </Group>
   )
@@ -140,15 +164,29 @@ function Sidebar() {
       <small style={{ color: "#6f7175" }}>Not part of the design.</small>
       <Radios
         legend="Stripe integration (ui_mode)"
+        note={
+          <>
+            MITOL&apos;s Stripe account is run by MIT IS&amp;T, not Open Learning. This playground
+            uses a separate sandbox, so all four work here.
+          </>
+        }
         name="mode"
         value={mode.key}
-        choices={MODES.map((m) => [
-          m.key,
-          <>
-            <strong>{m.label}</strong> <code>{m.uiMode}</code>
-            <small>{m.blurb}</small>
-          </>,
-        ])}
+        choices={MODES.map((m, i) => ({
+          value: m.key,
+          heading:
+            i === 0 || m.enabledForMitol !== MODES[i - 1].enabledForMitol
+              ? m.enabledForMitol
+                ? "Enabled on MITOL's account"
+                : "Not enabled on MITOL's account"
+              : undefined,
+          label: (
+            <>
+              <strong>{m.label}</strong> <code>{m.uiMode}</code>
+              <small>{m.blurb}</small>
+            </>
+          ),
+        }))}
         onChange={switchMode}
       />
       <Radios
@@ -156,8 +194,8 @@ function Sidebar() {
         name="address"
         value={state.addressOnFile ? "onFile" : "missing"}
         choices={[
-          ["onFile", "On file in their profile"],
-          ["missing", "Missing"],
+          { value: "onFile", label: "On file in their profile" },
+          { value: "missing", label: "Missing" },
         ]}
         onChange={(v) =>
           updatePlayground(
@@ -172,8 +210,8 @@ function Sidebar() {
         name="export"
         value={state.exportCheck}
         choices={[
-          ["pass", "Passes"],
-          ["fail", "Fails"],
+          { value: "pass", label: "Passes" },
+          { value: "fail", label: "Fails" },
         ]}
         onChange={(v) => updatePlayground({ exportCheck: v })}
       />

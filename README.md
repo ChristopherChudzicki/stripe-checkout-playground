@@ -14,6 +14,8 @@ Steps already done link back while the order is open. State (basket, details, se
 
 ## Where the modes differ, and why
 
+MIT Open Learning's production Stripe account is run by MIT IS&T, not Open Learning, and only `hosted_page` is enabled on it today. This playground runs on a separate test sandbox, so all four modes work here.
+
 | Mode | Checkout step | Export check runs | Why |
 |---|---|---|---|
 | Hosted (`hosted_page`) | Stripe's page; its back arrow goes to `cancel_url` (the Cart) | On the Cart, before the redirect | No hook between the learner's click and the charge |

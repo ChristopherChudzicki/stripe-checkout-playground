@@ -10,6 +10,8 @@ export type ModeInfo = {
   blurb: string
   /** Who draws the Checkout step, for the stepper. */
   checkoutOwner: string
+  /** Whether MIT Open Learning's production Stripe account (run by MIT IS&T) has this mode enabled. */
+  enabledForMitol: boolean
 }
 
 export const MODES: ModeInfo[] = [
@@ -19,6 +21,7 @@ export const MODES: ModeInfo[] = [
     label: "Hosted page",
     blurb: "Redirect to Stripe's page. What MITx Online does today.",
     checkoutOwner: "Stripe's page",
+    enabledForMitol: true,
   },
   {
     key: "embedded",
@@ -26,6 +29,7 @@ export const MODES: ModeInfo[] = [
     label: "Embedded page",
     blurb: "Stripe's whole checkout in an iframe on our page.",
     checkoutOwner: "Stripe iframe",
+    enabledForMitol: false,
   },
   {
     key: "form",
@@ -33,6 +37,7 @@ export const MODES: ModeInfo[] = [
     label: "Form",
     blurb: "Stripe's payment form and Pay button; our page around it.",
     checkoutOwner: "Stripe form, our page",
+    enabledForMitol: false,
   },
   {
     key: "elements",
@@ -40,6 +45,7 @@ export const MODES: ModeInfo[] = [
     label: "Elements",
     blurb: "Only the card field is Stripe's; our page and Pay button.",
     checkoutOwner: "Our page, Stripe card field",
+    enabledForMitol: false,
   },
 ]
 
