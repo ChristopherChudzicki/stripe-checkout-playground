@@ -37,7 +37,7 @@ const LEARN_BRANDING: Stripe.Checkout.SessionCreateParams.BrandingSettings = {
   button_color: "#750014",
   // Learn's page background (smoot-design's lightGray1).
   background_color: "#f3f4f8",
-  border_style: "rectangular",
+  border_style: "rounded",
   font_family: "inter",
 }
 
@@ -74,6 +74,8 @@ export function sessionParams(
     // Cards only, as MITx Online's RC sessions offer. Without this, Stripe
     // offers whatever the account's Dashboard enables (Link, Klarna, ...).
     allowed_payment_method_types: ["card"],
+    // Link adds its own options (Bank, Klarna) even on a card-only session.
+    wallet_options: { link: { display: "never" } },
     line_items: [
       {
         quantity: 1,

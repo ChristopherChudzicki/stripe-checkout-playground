@@ -29,7 +29,7 @@ Discount codes go in on the Cart in every mode: hosted and embedded can't change
 
 - **Form locks after a stopped payment.** Once Stripe's form emits `confirm`, it stays locked (greyed fields, a Pay button that does nothing) until `confirm()` is called. Remounting `CheckoutForm` doesn't unlock it; a new session does, and the learner re-enters the card.
 - **MITx Online's discount endpoint doesn't say when a code loses.** It returns 404 for an unknown code, but a valid code that doesn't beat the current discount comes back 200 with the basket unchanged, so the client has to compare before and after.
-- **Link shows up unless the Dashboard turns it off.** It adds Bank and Klarna rows (hosted, embedded) and a "Save my information" box (form), even on card-only sessions. `wallets: { link: "never" }` removes it from the Payment Element (Elements only).
+- **Link shows up on card-only sessions unless the session turns it off.** It adds Bank and Klarna rows (hosted, embedded) and a "Save my information" box (form). The session's `wallet_options: { link: { display: "never" } }` removes it from all four modes; the Payment Element's `wallets: { link: "never" }` does the same for Elements. Apple Pay still shows, since it pays by card.
 - A Stripe field mounted under `display: none` never renders; hide inactive content with `visibility: hidden` instead.
 - If our own form feeds Stripe the billing address (`updateBillingAddress()`), the Payment Element needs `fields.billingDetails: { name: "never", address: "never" }`, or `confirm()` throws an `IntegrationError`. The playground doesn't do this: the compliance address isn't the card's address, so Stripe collects the card's ZIP itself.
 
