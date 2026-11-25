@@ -64,7 +64,7 @@ export function ProductCard({ product, onRemove }: { product: Product; onRemove:
         </Footer>
       </Info>
       <Price>{money(product.listPriceCents)}</Price>
-      <Picture src="/images/default_resource.jpg" alt="" />
+      <Picture src={product.imagePath} alt="" />
     </Layout>
   )
 }

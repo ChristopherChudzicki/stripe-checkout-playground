@@ -8,6 +8,10 @@ export type Product = {
   sku: string
   kind: string
   name: string
+  /** Shown under the name on Stripe's pages. */
+  description: string
+  /** Under `public/`. */
+  imagePath: string
   starts: string
   listPriceCents: number
 }
@@ -16,6 +20,9 @@ export const PRODUCT: Product = {
   sku: "program-v1:MITx+SDS",
   kind: "Program",
   name: "Statistics and Data Science",
+  description:
+    "Left column background matches Learn's light gray background. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore.",
+  imagePath: "/images/default_resource.jpg",
   starts: "Anytime",
   listPriceCents: 135000,
 }

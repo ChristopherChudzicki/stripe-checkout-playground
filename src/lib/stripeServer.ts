@@ -35,9 +35,21 @@ export const SESSION_SOURCE = "stripe-checkout-playground"
 const LEARN_BRANDING: Stripe.Checkout.SessionCreateParams.BrandingSettings = {
   display_name: "MIT Learn",
   button_color: "#750014",
-  background_color: "#ffffff",
+  // Learn's page background (smoot-design's lightGray1).
+  background_color: "#f3f4f8",
   border_style: "rectangular",
   font_family: "inter",
+}
+
+/**
+ * Stripe downloads product images itself, so it can't reach one on localhost;
+ * there, use the copy in the public GitHub repo.
+ */
+function imageUrl(origin: string, path: string) {
+  const local = /^https?:\/\/(localhost|127\.0\.0\.1)(:|$)/.test(origin)
+  return local
+    ? `https://raw.githubusercontent.com/ChristopherChudzicki/stripe-checkout-playground/main/public${path}`
+    : `${origin}${path}`
 }
 
 /**
@@ -69,7 +81,12 @@ export function sessionParams(
           currency: "usd",
           unit_amount: basket.totalCents,
           tax_behavior: "inclusive",
-          product_data: { name: product.name, metadata: { sku: product.sku } },
+          product_data: {
+            name: product.name,
+            description: product.description,
+            images: [imageUrl(origin, product.imagePath)],
+            metadata: { sku: product.sku },
+          },
         },
       },
     ],
