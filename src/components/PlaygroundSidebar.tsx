@@ -105,7 +105,7 @@ function Radios<T extends string>({
   note?: React.ReactNode
   name: string
   value: T
-  choices: { value: T; label: React.ReactNode; heading?: string }[]
+  choices: { value: T; label: React.ReactNode; heading?: string; headingNote?: React.ReactNode }[]
   onChange: (v: T) => void
 }) {
   return (
@@ -115,6 +115,7 @@ function Radios<T extends string>({
       {choices.map((c) => (
         <React.Fragment key={c.value}>
           {c.heading && <SubGroup>{c.heading}</SubGroup>}
+          {c.headingNote && <Note>{c.headingNote}</Note>}
           <label>
             <input type="radio" name={name} checked={value === c.value} onChange={() => onChange(c.value)} />
             <span>{c.label}</span>
@@ -180,6 +181,17 @@ function Sidebar() {
                 ? "Enabled on MITOL's account"
                 : "Not enabled on MITOL's account"
               : undefined,
+          headingNote:
+            !m.enabledForMitol && MODES[i - 1]?.enabledForMitol ? (
+              <>
+                Stripe iframes on our own page add a PCI step: confirming our page&apos;s scripts
+                can&apos;t tamper with the payment form (PCI DSS 6.4.3, 11.6.1). A redirect to
+                Stripe&apos;s page is exempt.{" "}
+                <a href="https://www.pcisecuritystandards.org/faqs/1588" target="_blank" rel="noreferrer">
+                  PCI FAQ
+                </a>
+              </>
+            ) : undefined,
           label: (
             <>
               <strong>{m.label}</strong> <code>{m.uiMode}</code>
