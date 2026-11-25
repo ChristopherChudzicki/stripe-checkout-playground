@@ -184,9 +184,10 @@ function Sidebar() {
           headingNote:
             !m.enabledForMitol && MODES[i - 1]?.enabledForMitol ? (
               <>
-                Stripe iframes on our own page add a PCI step: confirming our page&apos;s scripts
-                can&apos;t tamper with the payment form (PCI DSS 6.4.3, 11.6.1). A redirect to
-                Stripe&apos;s page is exempt.{" "}
+                Stripe iframes on our own page add a small PCI step: confirming our page&apos;s
+                scripts can&apos;t tamper with the payment form (PCI DSS 6.4.3, 11.6.1). A strict
+                Content Security Policy is a common way to meet it. A redirect to Stripe&apos;s page
+                is exempt.{" "}
                 <a href="https://www.pcisecuritystandards.org/faqs/1588" target="_blank" rel="noreferrer">
                   PCI FAQ
                 </a>
