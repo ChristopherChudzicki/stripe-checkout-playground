@@ -43,7 +43,7 @@ export const MODES: ModeInfo[] = [
   },
 ]
 
-export const DEFAULT_MODE: ModeKey = "elements"
+export const DEFAULT_MODE: ModeKey = "hosted"
 
 export function modeInfo(key: string | undefined | null): ModeInfo {
   return MODES.find((m) => m.key === key) ?? MODES.find((m) => m.key === DEFAULT_MODE)!
